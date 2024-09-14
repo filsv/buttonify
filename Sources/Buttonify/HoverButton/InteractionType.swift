@@ -10,6 +10,7 @@ import Foundation
 public enum InteractionType {
     case tap
     case holding
+    case released
     case none
     
     public var description: String {
@@ -18,6 +19,8 @@ public enum InteractionType {
             return "Tapped"
         case .holding:
             return "Holding"
+        case .released:
+            return "Released"
         case .none:
             return "Ready"
         }

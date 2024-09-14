@@ -18,9 +18,11 @@ public struct HoverButton<Content: View>: View {
     private let releaseHapticType: HapticType?
     private let interactionCallback: (InteractionType) -> Void
     private let resetDelay: TimeInterval
+    private let holdingThreshold: TimeInterval
 
     @State private var isPressed = false
     @State private var interactionType: InteractionType = .none
+    @State private var holdTimer: Timer?
 
     // MARK: - Initializer
 
@@ -30,6 +32,7 @@ public struct HoverButton<Content: View>: View {
         longPressHapticType: HapticType? = nil,
         releaseHapticType: HapticType? = nil,
         resetDelay: TimeInterval = 0.5,
+        holdingThreshold: TimeInterval = 0.5,
         @ViewBuilder content: () -> Content,
         interactionCallback: @escaping (InteractionType) -> Void
     ) {
@@ -38,6 +41,7 @@ public struct HoverButton<Content: View>: View {
         self.longPressHapticType = longPressHapticType
         self.releaseHapticType = releaseHapticType
         self.resetDelay = resetDelay
+        self.holdingThreshold = holdingThreshold
         self.content = content()
         self.interactionCallback = interactionCallback
     }
@@ -45,10 +49,7 @@ public struct HoverButton<Content: View>: View {
     // MARK: - Body
 
     public var body: some View {
-        Button(action: {
-            handleTap()
-        }) {
-            content
+        content
             .font(style.value.font)
             .padding(style.value.padding ?? 0.0)
             .padding(.horizontal, style.value.horizontalPadding ?? 0.0)
@@ -56,17 +57,7 @@ public struct HoverButton<Content: View>: View {
             .foregroundColor(foregroundColor)
             .clipShape(RoundedRectangle(cornerRadius: style.value.radius ?? 0.0, style: .continuous))
             .animation(.easeInOut(duration: 0.2), value: isPressed)
-        }
-        .simultaneousGesture(
-            LongPressGesture(minimumDuration: 0.5)
-                .onChanged { _ in
-                    isPressed = true
-                }
-                .onEnded { _ in
-                    handleLongPress()
-                    isPressed = false
-                }
-        )
+            .gesture(mainGesture)
     }
 
     // MARK: - Computed Properties
@@ -83,20 +74,63 @@ public struct HoverButton<Content: View>: View {
         return isPressed ? (pressedTint) : tint
     }
 
-
+    
+    // MARK: - Gesture
+    
+    private var mainGesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { _ in
+                if !isPressed {
+                    isPressed = true
+                    startHoldTimer()
+                }
+            }
+            .onEnded { _ in
+                isPressed = false
+                cancelHoldTimer()
+                if interactionType == .holding {
+                    // If already in holding state, trigger release
+                    handleRelease()
+                } else {
+                    // If not holding, it's a tap
+                    handleTap()
+                }
+            }
+    }
+    
+    // MARK: - Timer Management
+    
+    private func startHoldTimer() {
+        holdTimer = Timer.scheduledTimer(withTimeInterval: holdingThreshold, repeats: false) { _ in
+            handleHolding()
+        }
+    }
+    
+    private func cancelHoldTimer() {
+        holdTimer?.invalidate()
+        holdTimer = nil
+    }
+    
     // MARK: - Gesture Handlers
-
+    
     private func handleTap() {
         interactionType = .tap
         interactionCallback(.tap)
         triggerHapticIfNeeded(tapHapticType)
         resetInteractionTypeWithDelay()
     }
-
-    private func handleLongPress() {
+    
+    private func handleHolding() {
         interactionType = .holding
         interactionCallback(.holding)
         triggerHapticIfNeeded(longPressHapticType)
+        // Continue holding until the finger is lifted
+    }
+    
+    private func handleRelease() {
+        interactionType = .released
+        interactionCallback(.released)
+        triggerHapticIfNeeded(releaseHapticType)
         resetInteractionTypeWithDelay()
     }
 
@@ -168,6 +202,8 @@ struct HoverButtonContainer: View {
             return Color.orange
         case .holding:
             return Color.orange
+        case .released:
+            return Color.red
         case .none:
             return Color.blue
         }
