@@ -12,9 +12,9 @@ Buttonify is a SwiftUI framework that provides customizable and reusable button 
 
 ## Requirements
 
-- iOS 13.0+ / macOS 10.15+
-- Xcode 12.0+
-- Swift 5.0+
+- iOS 15.0+ / macOS 11.0+
+- Xcode 15.0+
+- Swift 5.1+
 
 ## Installation
 
