@@ -9,27 +9,33 @@ import Foundation
 import SwiftUI
 
 public enum Style {
-    case primary(isLarge: Bool = false)
-    case secondary(isLarge: Bool = false)
-    case shadowed(isLarge: Bool = false)
-    case bordered(isLarge: Bool = false)
-    case destroy(isLarge: Bool = false)
+    case primary(isLarge: Bool = false, 
+                 shrinkable: Bool = false)
+    case secondary(isLarge: Bool = false, 
+                   shrinkable: Bool = false)
+    case shadowed(isLarge: Bool = false, 
+                  shrinkable: Bool = false)
+    case bordered(isLarge: Bool = false, 
+                  shrinkable: Bool = false)
+    case destroy(isLarge: Bool = false, 
+                 shrinkable: Bool = false)
     case custom(style: Styles)
     
     var value: Styles {
         switch self {
-            case .primary(let isLarge):
+            case .primary(let isLarge, let shrinkable):
                 return .init(tint: Color.white,
                              selectedTint: Color.white.opacity(0.8),
-                             font: .body,
+                             font: .body.weight(.bold),
                              radius: isLarge ? 20 : 10,
                              background: Color.blue,
                              hoveredBackground: Color.blue.opacity(0.9),
                              padding: 5,
                              horizontalPadding: 5,
-                             isLarge: isLarge
+                             isLarge: isLarge,
+                             sharinkable: shrinkable
                 )
-            case .secondary(let isLarge):
+            case .secondary(let isLarge, let shrinkable):
                 return .init(tint: Color.black,
                              selectedTint: Color.black.opacity(0.8),
                              font: .body,
@@ -38,9 +44,10 @@ public enum Style {
                              hoveredBackground: Color.gray.opacity(0.05),
                              padding: 5,
                              horizontalPadding: 5,
-                             isLarge: isLarge
+                             isLarge: isLarge,
+                             sharinkable: shrinkable
                 )
-        case .shadowed(let isLarge):
+        case .shadowed(let isLarge, let shrinkable):
             let shadow = Styles.Shadow(color: Color.black.opacity(0.1),
                                        radius: 2,
                                        x: 0, y: 0)
@@ -53,9 +60,10 @@ public enum Style {
                          padding: 5,
                          horizontalPadding: 5,
                          shadow: shadow,
-                         isLarge: isLarge
+                         isLarge: isLarge,
+                         sharinkable: shrinkable
             )
-        case .bordered(isLarge: let isLarge):
+        case .bordered(isLarge: let isLarge, let shrinkable):
             let border = Styles.Border(color: Color.black,
                                        width: 1.0)
             return .init(tint: Color.black,
@@ -67,9 +75,10 @@ public enum Style {
                          padding: 5,
                          horizontalPadding: 5,
                          border: border,
-                         isLarge: isLarge
+                         isLarge: isLarge,
+                         sharinkable: shrinkable
             )
-        case .destroy(let isLarge):
+        case .destroy(let isLarge, let shrinkable):
             return .init(tint: Color.white,
                          selectedTint: Color.white.opacity(0.8),
                          font: .body,
@@ -78,7 +87,8 @@ public enum Style {
                          hoveredBackground: Color.red.opacity(0.9),
                          padding: 5,
                          horizontalPadding: 5,
-                         isLarge: isLarge
+                         isLarge: isLarge,
+                         sharinkable: shrinkable
             )
         case .custom(let customStyle):
             return customStyle
@@ -98,6 +108,7 @@ public struct Styles {
     let border: Border?
     let shadow: Shadow?//(Color, CGFloat, CGFloat, CGFloat) // Color, Radius, X, Y
     let isLarge: Bool
+    let sharinkable: Bool
     
     public struct Border {
         let color: Color
@@ -128,7 +139,8 @@ public struct Styles {
          horizontalPadding: CGFloat? = nil,
                 border: Border? = nil,
          shadow: Shadow? = nil,
-         isLarge: Bool = false) {
+         isLarge: Bool = false,
+         sharinkable: Bool = false) {
         
         self.tint = tint
         self.selectedTint = selectedTint ?? tint.opacity(0.8)
@@ -141,5 +153,6 @@ public struct Styles {
         self.border = border
         self.shadow = shadow
         self.isLarge = isLarge
+        self.sharinkable = sharinkable
     }
 }

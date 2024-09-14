@@ -74,7 +74,12 @@ public struct HoverButton<Content: View>: View {
     public var body: some View {
         HStack {
             if style.value.isLarge {
-                Spacer()
+                if !isLoading && style.value.sharinkable {
+                    Spacer()
+                        .transition(
+                            .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
+                        )
+                }
             }
             
             ZStack {
@@ -93,13 +98,18 @@ public struct HoverButton<Content: View>: View {
                         )
                 }
             }
-            .animation(.linear, value: isLoading)
             .padding(style.value.isLarge ? 10 : 0)
             
             if style.value.isLarge {
-                Spacer()
+                if !isLoading && style.value.sharinkable {
+                    Spacer()
+                        .transition(
+                            .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
+                        )
+                }
             }
         }
+        .animation(.easeInOut(duration: 0.3), value: isLoading)
         .font(style.value.font)
         .padding(style.value.padding ?? 0.0)
         .padding(.horizontal, style.value.horizontalPadding ?? 0.0)
@@ -236,9 +246,10 @@ struct HoverButtonContainer: View {
     var body: some View {
         VStack {
             HoverButton(
-//                style: .primary(isLarge: true),
-                //style: .secondary(isLarge: true),
-                style: .destroy(isLarge: true),
+                style: .primary(isLarge: true,
+                                shrinkable: true),
+//                style: .secondary(isLarge: true),
+//                style: .destroy(isLarge: true),
                 //style: .roundShadow(isLarge: true),
 //                style: .bordered(isLarge: true),
                 isLoading: $isLoading,
