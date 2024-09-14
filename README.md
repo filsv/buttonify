@@ -1,6 +1,7 @@
 # # Buttonify (Buttons UI Library for SwiftUI)
 
-Welcome to the **Buttonify - Buttons UI Library** for SwiftUI! 
+Welcome to the **Buttonify - Lightweight SwiftUI Button Library** for SwiftUI!</br>
+
 This library provides a customizable button component that supports different interaction states (tap, holding, release) with optional haptic feedback and a flexible styling system.
 
 ## Table of Contents
