@@ -29,8 +29,8 @@ public enum Style {
                              isLarge: isLarge
                 )
             case .secondary(let isLarge):
-                return .init(tint: Color.gray,
-                             selectedTint: Color.gray.opacity(0.8),
+                return .init(tint: Color.black,
+                             selectedTint: Color.black.opacity(0.8),
                              font: .body,
                              radius: 5,
                              background: Color.gray.opacity(0.1),
