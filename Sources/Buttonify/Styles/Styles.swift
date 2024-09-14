@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum Style {
+public enum Style {
     case primary
     
     var value: Styles {
@@ -28,7 +28,7 @@ enum Style {
     }
 }
 
-struct Styles {
+public struct Styles {
     let tint: Color
     let selectedTint: Color?
     let font: Font
@@ -39,7 +39,7 @@ struct Styles {
     let horizontalPadding: CGFloat?
     let shadow: Shadow?//(Color, CGFloat, CGFloat, CGFloat) // Color, Radius, X, Y
     
-    struct Shadow {
+    public struct Shadow {
         let color: Color
         let radius: CGFloat
         let x: CGFloat

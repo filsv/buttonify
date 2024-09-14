@@ -6,3 +6,9 @@ DerivedData/
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
+
+# Ignore Xcode SPM workspace files
+.swiftpm/xcode/package.xcworkspace/
+
+# Ignore shared data unless you need shared schemes
+xcshareddata/

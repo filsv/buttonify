@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct HoverButton<Content: View>: View {
+public struct HoverButton<Content: View>: View {
 
-    let style: Style
-    let content: Content
-    let tapHapticType: HapticType? // Haptic for tap
-    let releaseHapticType: HapticType? // Haptic for release
-    let longTapHapticType: HapticType? // Haptic for long tap
-    let interactionCallback: (InteractionType) -> Void // Callback for interaction
-    var resetDelay: TimeInterval = 0.5 // Delay to reset interaction to none
+    private let style: Style
+    private let content: Content
+    private let tapHapticType: HapticType? // Haptic for tap
+    private let releaseHapticType: HapticType? // Haptic for release
+    private let longTapHapticType: HapticType? // Haptic for long tap
+    private let interactionCallback: (InteractionType) -> Void // Callback for interaction
+    private var resetDelay: TimeInterval = 0.5 // Delay to reset interaction to none
 
     @State private var isActive: Bool = false
     @State private var interactionType: InteractionType = .none
@@ -38,7 +38,7 @@ struct HoverButton<Content: View>: View {
         self.interactionCallback = interactionCallback
     }
 
-    var body: some View {
+    public var body: some View {
         content
             .font(style.value.font)
             .padding(style.value.padding ?? 0)
