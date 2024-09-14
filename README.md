@@ -196,9 +196,9 @@ The Style enum and Styles struct allow you to define the appearance of the Hover
 	.secondary(isLarge: Bool)
 	.shadowed(isLarge: Bool)
 	.bordered(isLarge: Bool)
+
 # Custom Styles:
-	Create a Styles instance with your desired properties.
-	Use .custom(style: Styles) to apply it.
+  	Use .custom(style: Styles) to apply it. // Create a Styles instance with your desired properties.
 
  ## Style Properties:
  	tint: Text color.
