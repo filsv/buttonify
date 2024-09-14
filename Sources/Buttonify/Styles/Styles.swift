@@ -10,21 +10,37 @@ import SwiftUI
 
 public enum Style {
     case primary(isLarge: Bool = false)
+    case secondary(isLarge: Bool = false)
+    case custom(style: Styles)
     
     var value: Styles {
         switch self {
             case .primary(let isLarge):
-            return .init(tint: Color.black,
-                         selectedTint: Color.black.opacity(0.8),
-                         font: .body,
-                         radius: 5,
-                         background: Color.gray.opacity(0.2),
-                         hoveredBackground: Color.gray.opacity(0.1),
-                         padding: 5,
-                         horizontalPadding: 5,
-                         shadow: nil,
-                         isLarge: isLarge
-            )
+                return .init(tint: Color.white,
+                             selectedTint: Color.white.opacity(0.8),
+                             font: .body,
+                             radius: 5,
+                             background: Color.blue,
+                             hoveredBackground: Color.blue.opacity(0.9),
+                             padding: 5,
+                             horizontalPadding: 5,
+                             shadow: nil,
+                             isLarge: isLarge
+                )
+            case .secondary(let isLarge):
+                return .init(tint: Color.gray,
+                             selectedTint: Color.gray.opacity(0.8),
+                             font: .body,
+                             radius: 5,
+                             background: Color.gray.opacity(0.1),
+                             hoveredBackground: Color.gray.opacity(0.05),
+                             padding: 5,
+                             horizontalPadding: 5,
+                             shadow: nil,
+                             isLarge: isLarge
+                )
+        case .custom(let customStyle):
+            return customStyle
         }
     }
 }
