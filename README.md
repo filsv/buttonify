@@ -48,7 +48,7 @@ To use the Buttonify UI Library in your SwiftUI project, you have two options:
    - Navigate to `File > Add Packages...`.
    - Enter the repository URL of Buttonify in the search bar (use the copy button below):
      ```plaintext
-     https://github.com/yourusername/Buttonify.git
+     https://github.com/filsv/buttonify.git
      ```
    - Choose the package options that fit your needs and click `Add Package`. 
 
@@ -62,6 +62,7 @@ Here's how you can use the `HoverButton` in your SwiftUI views:
 
 ```swift
 import SwiftUI
+import Buttonify
 
 struct ContentView: View {
     @State private var interactionType: InteractionType = .none
@@ -191,35 +192,34 @@ HoverButton(
 The Style enum and Styles struct allow you to define the appearance of the HoverButton:
 
 # Predefined Styles
-	• .primary(isLarge: Bool)
-	•	.secondary(isLarge: Bool)
-	•	.shadowed(isLarge: Bool)
-	•	.bordered(isLarge: Bool)
+	.primary(isLarge: Bool)
+	.secondary(isLarge: Bool)
+	.shadowed(isLarge: Bool)
+	.bordered(isLarge: Bool)
 # Custom Styles:
-	•	Create a Styles instance with your desired properties.
-	•	Use .custom(style: Styles) to apply it.
+	Create a Styles instance with your desired properties.
+	Use .custom(style: Styles) to apply it.
 
  ## Style Properties:
- 	•	tint: Text color.
-	 •	selectedTint: Text color when pressed.
-	 •	font: Font style.
-	 •	radius: Corner radius.
-	 •	background: Background color.
-	 •	hoveredBackground: Background color when pressed.
-	 •	padding: Vertical padding.
-	 •	horizontalPadding: Horizontal padding.
-	 •	border: Styles.Border (color and width).
-	 •	shadow: Styles.Shadow (color, radius, x, y).
-	 •	isLarge: Adjusts the button’s size and layout.
+ 	tint: Text color.
+	selectedTint: Text color when pressed.
+	font: Font style.
+	radius: Corner radius.
+	background: Background color.
+	hoveredBackground: Background color when pressed.
+	padding: Vertical padding.
+	horizontalPadding: Horizontal padding.
+	border: Styles.Border (color and width).
+	shadow: Styles.Shadow (color, radius, x, y).
+	isLarge: Adjusts the button’s size and layout.
 
   ## Interaction Types
   
   The InteractionType enum represents the button’s interaction states:
-
-  	•	.tap: The button was tapped.
-	  •	.holding: The button is being held down.
-	  •	.released: The button was released after a hold.
-	  •	.none: No interaction (default state).
+  	.tap: The button was tapped.
+	.holding: The button is being held down.
+	.released: The button was released after a hold.
+	.none: No interaction (default state).
 
   Use the interactionCallback closure to handle these interactions in your view logic.
 
