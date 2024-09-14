@@ -81,8 +81,16 @@ public struct HoverButton<Content: View>: View {
                 if isLoading {
                     ProgressView()
                         .tint(style.value.tint)
+                        .transition(
+                            .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
+                            .combined(with: .opacity)
+                        )
                 } else {
                     content
+                        .transition(
+                            .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
+                            .combined(with: .opacity)
+                        )
                 }
             }
             .animation(.linear, value: isLoading)
@@ -228,8 +236,9 @@ struct HoverButtonContainer: View {
     var body: some View {
         VStack {
             HoverButton(
-                //style: .primary(isLarge: true),
-                style: .secondary(isLarge: true),
+//                style: .primary(isLarge: true),
+                //style: .secondary(isLarge: true),
+                style: .destroy(isLarge: true),
                 //style: .roundShadow(isLarge: true),
 //                style: .bordered(isLarge: true),
                 isLoading: $isLoading,

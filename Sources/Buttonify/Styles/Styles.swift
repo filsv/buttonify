@@ -13,6 +13,7 @@ public enum Style {
     case secondary(isLarge: Bool = false)
     case shadowed(isLarge: Bool = false)
     case bordered(isLarge: Bool = false)
+    case destroy(isLarge: Bool = false)
     case custom(style: Styles)
     
     var value: Styles {
@@ -66,6 +67,17 @@ public enum Style {
                          padding: 5,
                          horizontalPadding: 5,
                          border: border,
+                         isLarge: isLarge
+            )
+        case .destroy(let isLarge):
+            return .init(tint: Color.white,
+                         selectedTint: Color.white.opacity(0.8),
+                         font: .body,
+                         radius: isLarge ? 20 : 10,
+                         background: Color.red,
+                         hoveredBackground: Color.red.opacity(0.9),
+                         padding: 5,
+                         horizontalPadding: 5,
                          isLarge: isLarge
             )
         case .custom(let customStyle):
