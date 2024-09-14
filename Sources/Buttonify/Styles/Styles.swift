@@ -9,12 +9,12 @@ import Foundation
 import SwiftUI
 
 public enum Style {
-    case primary
+    case primary(isLarge: Bool = false)
     
     var value: Styles {
         switch self {
-            case .primary:
-            return .init(tint: Color.black, 
+            case .primary(let isLarge):
+            return .init(tint: Color.black,
                          selectedTint: Color.black.opacity(0.8),
                          font: .body,
                          radius: 5,
@@ -22,7 +22,8 @@ public enum Style {
                          hoveredBackground: Color.gray.opacity(0.1),
                          padding: 5,
                          horizontalPadding: 5,
-                         shadow: nil
+                         shadow: nil,
+                         isLarge: isLarge
             )
         }
     }
@@ -38,6 +39,7 @@ public struct Styles {
     let padding: CGFloat?
     let horizontalPadding: CGFloat?
     let shadow: Shadow?//(Color, CGFloat, CGFloat, CGFloat) // Color, Radius, X, Y
+    let isLarge: Bool
     
     public struct Shadow {
         let color: Color
@@ -61,7 +63,8 @@ public struct Styles {
          hoveredBackground: Color? = nil,
          padding: CGFloat? = nil,
          horizontalPadding: CGFloat? = nil,
-         shadow: Shadow? = nil) {
+         shadow: Shadow? = nil,
+         isLarge: Bool = false) {
          //shadow: (Color, CGFloat, CGFloat, CGFloat) = (Color.clear, 0, 0, 0)) {
         
         self.tint = tint
@@ -73,5 +76,6 @@ public struct Styles {
         self.padding = padding
         self.horizontalPadding = horizontalPadding
         self.shadow = shadow
+        self.isLarge = isLarge
     }
 }

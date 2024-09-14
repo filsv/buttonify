@@ -23,23 +23,26 @@ public struct HoverButton<Content: View>: View {
     @State private var isPressed = false
     @State private var interactionType: InteractionType = .none
     @State private var holdTimer: Timer?
+    @Binding private var isLoading: Bool
 
     // MARK: - Initializer
 
     public init(
-        style: Style,
-        tapHapticType: HapticType? = nil,
-        longPressHapticType: HapticType? = nil,
-        releaseHapticType: HapticType? = nil,
+        style: Style = .primary(isLarge: false),
+        isLoading: Binding<Bool> = .constant(false),
+        tapHaptic: HapticType? = nil,
+        longPressHaptic: HapticType? = nil,
+        releaseHaptic: HapticType? = nil,
         resetDelay: TimeInterval = 0.5,
-        holdingThreshold: TimeInterval = 0.5,
+        holdingThreshold: TimeInterval = 0.25,
         @ViewBuilder content: () -> Content,
         interactionCallback: @escaping (InteractionType) -> Void
     ) {
         self.style = style
-        self.tapHapticType = tapHapticType
-        self.longPressHapticType = longPressHapticType
-        self.releaseHapticType = releaseHapticType
+        _isLoading = isLoading
+        self.tapHapticType = tapHaptic
+        self.longPressHapticType = longPressHaptic
+        self.releaseHapticType = releaseHaptic
         self.resetDelay = resetDelay
         self.holdingThreshold = holdingThreshold
         self.content = content()
@@ -49,15 +52,31 @@ public struct HoverButton<Content: View>: View {
     // MARK: - Body
 
     public var body: some View {
-        content
-            .font(style.value.font)
-            .padding(style.value.padding ?? 0.0)
-            .padding(.horizontal, style.value.horizontalPadding ?? 0.0)
-            .background(backgroundColor)
-            .foregroundColor(foregroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: style.value.radius ?? 0.0, style: .continuous))
-            .animation(.easeInOut(duration: 0.2), value: isPressed)
-            .gesture(mainGesture)
+        HStack {
+            if style.value.isLarge {
+                Spacer()
+            }
+            
+            if isLoading {
+                ProgressView()
+                    .tint(style.value.tint)
+            } else {
+                content
+                    .padding(style.value.isLarge ? 10 : 0)
+            }
+            
+            if style.value.isLarge {
+                Spacer()
+            }
+        }
+        .font(style.value.font)
+        .padding(style.value.padding ?? 0.0)
+        .padding(.horizontal, style.value.horizontalPadding ?? 0.0)
+        .background(backgroundColor)
+        .foregroundColor(foregroundColor)
+        .clipShape(RoundedRectangle(cornerRadius: style.value.radius ?? 0.0, style: .continuous))
+        .animation(.easeInOut(duration: 0.2), value: isPressed)
+        .gesture(mainGesture)
     }
 
     // MARK: - Computed Properties
@@ -170,28 +189,41 @@ HoverButton(style: .primary) {
 struct HoverButtonContainer: View {
     
     @State private var interactionType: InteractionType = .none
+    @State private var isLoading: Bool = false
     
     var body: some View {
         VStack {
             HoverButton(
-                style: .primary,
-                tapHapticType: .impact(.light),
-                longPressHapticType: .impact(.heavy),
-                releaseHapticType: .selection
+                style: .primary(isLarge: false),
+                isLoading: $isLoading,
+                tapHaptic: .impact(.light),
+                longPressHaptic: .impact(.heavy),
+                releaseHaptic: .selection
             ) {
                 Text(interactionType.description)
-                    .font(.headline)
-                    .padding()
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity, minHeight: 50)
-                    .background(interactionColor)
-                    .cornerRadius(10)
+//                    .font(.headline)
+//                    .padding()
+//                    .foregroundColor(.white)
+//                    .frame(maxWidth: .infinity, minHeight: 50)
+//                    .background(interactionColor)
+//                    .cornerRadius(10)
             } interactionCallback: { interaction in
                 interactionType = interaction
+                
+                //self.load()
             }
             .padding()
 
             // Add additional views if needed, like a description or actions
+        }
+    }
+    
+    private func load() {
+        self.isLoading = true
+        
+        let delay = 2.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            self.isLoading = false
         }
     }
     
