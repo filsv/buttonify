@@ -57,13 +57,16 @@ public struct HoverButton<Content: View>: View {
                 Spacer()
             }
             
-            if isLoading {
-                ProgressView()
-                    .tint(style.value.tint)
-            } else {
-                content
-                    .padding(style.value.isLarge ? 10 : 0)
+            ZStack {
+                if isLoading {
+                    ProgressView()
+                        .tint(style.value.tint)
+                } else {
+                    content
+                }
             }
+            .animation(.linear, value: isLoading)
+            .padding(style.value.isLarge ? 10 : 0)
             
             if style.value.isLarge {
                 Spacer()
@@ -78,6 +81,7 @@ public struct HoverButton<Content: View>: View {
         .animation(.easeInOut(duration: 0.2), 
                    value: interactionType)
         .gesture(mainGesture)
+        .padding(style.value.isLarge ? 10 : 0)
     }
 
     // MARK: - Computed Properties
@@ -195,7 +199,7 @@ struct HoverButtonContainer: View {
     var body: some View {
         VStack {
             HoverButton(
-                style: .primary(isLarge: false),
+                style: .primary(isLarge: true),
                 isLoading: $isLoading,
                 tapHaptic: .impact(.light),
                 longPressHaptic: .impact(.heavy),
@@ -211,9 +215,9 @@ struct HoverButtonContainer: View {
             } interactionCallback: { interaction in
                 interactionType = interaction
                 
-                //self.load()
+                self.load()
             }
-            .padding()
+//            .padding()
 
             // Add additional views if needed, like a description or actions
         }
