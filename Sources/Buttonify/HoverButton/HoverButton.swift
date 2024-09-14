@@ -88,14 +88,14 @@ public struct HoverButton<Content: View>: View {
                             .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
                             .combined(with: .opacity)
                         )
-                        .frame(maxWidth: (shrinkable && isLoading) ? nil : .infinity) // Grow back when not loading
+                        .frame(maxWidth: (shrinkable && isLoading) ? nil : (style.values.isLarge ? .infinity : nil)) // Grow back when not loading
                 } else {
                     content
                         .transition(
                             .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
                             .combined(with: .opacity)
                         )
-                        .frame(maxWidth: (shrinkable && isLoading) ? nil : .infinity) // Grow back when not loading
+                        .frame(maxWidth: (shrinkable && isLoading) ? nil : (style.values.isLarge ? .infinity : nil)) // Grow back when not loading
                 }
             }
             .padding(style.values.isLarge ? 10 : 0)
@@ -243,11 +243,11 @@ struct HoverButtonContainer: View {
         VStack {
             HoverButton(
                 style: .primary(isLarge: true),
-//                style: .secondary(isLarge: true),
+//                style: .secondary(isLarge: false),
 //                style: .destroy(isLarge: true),
                 //style: .roundShadow(isLarge: true),
 //                style: .bordered(isLarge: true),
-                shrinkable: true,
+                shrinkable: false,
                 isLoading: $isLoading,
                 tapHaptic: .impact(.light),
                 longPressHaptic: .impact(.heavy),
