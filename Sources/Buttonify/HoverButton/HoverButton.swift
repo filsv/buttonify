@@ -19,6 +19,7 @@ public struct HoverButton<Content: View>: View {
     private let interactionCallback: (InteractionType) -> Void
     private let resetDelay: TimeInterval
     private let holdingThreshold: TimeInterval
+    private let shrinkable: Bool
 
     @State private var isPressed = false
     @State private var interactionType: InteractionType = .none
@@ -29,6 +30,7 @@ public struct HoverButton<Content: View>: View {
 
     public init(
         style: Style = .primary(isLarge: false),
+        shrinkable: Bool = false,
         isLoading: Binding<Bool> = .constant(false),
         tapHaptic: HapticType? = nil,
         longPressHaptic: HapticType? = nil,
@@ -39,6 +41,7 @@ public struct HoverButton<Content: View>: View {
         interactionCallback: @escaping (InteractionType) -> Void
     ) {
         self.style = style
+        self.shrinkable = shrinkable
         _isLoading = isLoading
         self.tapHapticType = tapHaptic
         self.longPressHapticType = longPressHaptic
@@ -52,29 +55,29 @@ public struct HoverButton<Content: View>: View {
     // MARK: - Body
     
     private var shadowRadius: CGFloat {
-        style.value.shadow?.radius ?? 0.0
+        style.values.shadow?.radius ?? 0.0
     }
     private var shadowColor: Color {
-        style.value.shadow?.color ?? Color.clear
+        style.values.shadow?.color ?? Color.clear
     }
     private var shadowXPos: CGFloat {
-        style.value.shadow?.x ?? 0.0
+        style.values.shadow?.x ?? 0.0
     }
     private var shadowYPos: CGFloat {
-        style.value.shadow?.y ?? 0.0
+        style.values.shadow?.y ?? 0.0
     }
     
     private var borderColor: Color {
-        style.value.border?.color ?? Color.clear
+        style.values.border?.color ?? Color.clear
     }
     private var borderWidth: CGFloat {
-        style.value.border?.width ?? 0.0
+        style.values.border?.width ?? 0.0
     }
 
     public var body: some View {
         HStack {
-            if style.value.isLarge {
-                if !isLoading && style.value.sharinkable {
+            if style.values.isLarge {
+                if !isLoading && shrinkable {
                     Spacer()
                         .transition(
                             .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
@@ -85,7 +88,7 @@ public struct HoverButton<Content: View>: View {
             ZStack {
                 if isLoading {
                     ProgressView()
-                        .tint(style.value.tint)
+                        .tint(style.values.tint)
                         .transition(
                             .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
                             .combined(with: .opacity)
@@ -98,10 +101,10 @@ public struct HoverButton<Content: View>: View {
                         )
                 }
             }
-            .padding(style.value.isLarge ? 10 : 0)
+            .padding(style.values.isLarge ? 10 : 0)
             
-            if style.value.isLarge {
-                if !isLoading && style.value.sharinkable {
+            if style.values.isLarge {
+                if !isLoading && shrinkable {
                     Spacer()
                         .transition(
                             .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
@@ -110,17 +113,17 @@ public struct HoverButton<Content: View>: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: isLoading)
-        .font(style.value.font)
-        .padding(style.value.padding ?? 0.0)
-        .padding(.horizontal, style.value.horizontalPadding ?? 0.0)
+        .font(style.values.font)
+        .padding(style.values.padding ?? 0.0)
+        .padding(.horizontal, style.values.horizontalPadding ?? 0.0)
         .background(backgroundColor)
         .foregroundColor(foregroundColor)
-        .clipShape(RoundedRectangle(cornerRadius: style.value.radius ?? 0.0, style: .continuous))
-        .animation(.easeInOut(duration: 0.2), 
+        .clipShape(RoundedRectangle(cornerRadius: style.values.radius ?? 0.0, style: .continuous))
+        .animation(.easeInOut(duration: 0.2),
                    value: interactionType)
         .gesture(mainGesture)
         .overlay(
-            RoundedRectangle(cornerRadius: style.value.radius ?? 0.0, style: .continuous)
+            RoundedRectangle(cornerRadius: style.values.radius ?? 0.0, style: .continuous)
                 .strokeBorder(borderColor,
                               lineWidth: borderWidth)
         )
@@ -128,20 +131,20 @@ public struct HoverButton<Content: View>: View {
                 radius: shadowRadius,
                 x: shadowXPos,
                 y: shadowYPos)
-        .padding(style.value.isLarge ? 10 : 0)
+        .padding(style.values.isLarge ? 10 : 0)
     }
 
     // MARK: - Computed Properties
 
     private var backgroundColor: Color {
-        let hoveredBackground = style.value.hoveredBackground ?? style.value.background ?? Color.clear
-        let background = style.value.background ?? Color.clear
+        let hoveredBackground = style.values.hoveredBackground ?? style.values.background ?? Color.clear
+        let background = style.values.background ?? Color.clear
         return isPressed ? hoveredBackground : background
     }
 
     private var foregroundColor: Color {
-        let pressedTint = style.value.selectedTint ?? style.value.tint
-        let tint = style.value.selectedTint ?? style.value.tint
+        let pressedTint = style.values.selectedTint ?? style.values.tint
+        let tint = style.values.selectedTint ?? style.values.tint
         return isPressed ? (pressedTint) : tint
     }
 
@@ -246,12 +249,12 @@ struct HoverButtonContainer: View {
     var body: some View {
         VStack {
             HoverButton(
-                style: .primary(isLarge: true,
-                                shrinkable: true),
+                style: .primary(isLarge: true),
 //                style: .secondary(isLarge: true),
 //                style: .destroy(isLarge: true),
                 //style: .roundShadow(isLarge: true),
 //                style: .bordered(isLarge: true),
+                shrinkable: true,
                 isLoading: $isLoading,
                 tapHaptic: .impact(.light),
                 longPressHaptic: .impact(.heavy),
