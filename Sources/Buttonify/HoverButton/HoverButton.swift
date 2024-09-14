@@ -50,6 +50,19 @@ public struct HoverButton<Content: View>: View {
     }
 
     // MARK: - Body
+    
+    private var shadowRadius: CGFloat {
+        style.value.shadow?.radius ?? 0.0
+    }
+    private var shadowColor: Color {
+        style.value.shadow?.color ?? Color.clear
+    }
+    private var shadowXPos: CGFloat {
+        style.value.shadow?.x ?? 0.0
+    }
+    private var shadowYPos: CGFloat {
+        style.value.shadow?.y ?? 0.0
+    }
 
     public var body: some View {
         HStack {
@@ -82,6 +95,10 @@ public struct HoverButton<Content: View>: View {
                    value: interactionType)
         .gesture(mainGesture)
         .padding(style.value.isLarge ? 10 : 0)
+        .shadow(color: shadowColor,
+                radius: shadowRadius,
+                x: shadowXPos,
+                y: shadowYPos)
     }
 
     // MARK: - Computed Properties
@@ -199,7 +216,8 @@ struct HoverButtonContainer: View {
     var body: some View {
         VStack {
             HoverButton(
-                style: .primary(isLarge: true),
+                //style: .primary(isLarge: true),
+                style: .roundShadow(isLarge: true),
                 isLoading: $isLoading,
                 tapHaptic: .impact(.light),
                 longPressHaptic: .impact(.heavy),
