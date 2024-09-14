@@ -1,4 +1,4 @@
-# # Buttonify (Buttons UI Library for SwiftUI)
+# # Buttonify
 
 Welcome to the **Buttonify - Lightweight SwiftUI Button Library** for SwiftUI!</br>
 
