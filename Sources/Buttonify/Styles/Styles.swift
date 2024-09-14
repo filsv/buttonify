@@ -46,16 +46,16 @@ public enum Style {
 }
 
 public struct Styles {
-    private let tint: Color
-    private let selectedTint: Color?
-    private let font: Font
-    private let radius: CGFloat?
-    private let background: Color?
-    private let hoveredBackground: Color?
-    private let padding: CGFloat?
-    private let horizontalPadding: CGFloat?
-    private let shadow: Shadow?//(Color, CGFloat, CGFloat, CGFloat) // Color, Radius, X, Y
-    private let isLarge: Bool
+    let tint: Color
+    let selectedTint: Color?
+    let font: Font
+    let radius: CGFloat?
+    let background: Color?
+    let hoveredBackground: Color?
+    let padding: CGFloat?
+    let horizontalPadding: CGFloat?
+    let shadow: Shadow?//(Color, CGFloat, CGFloat, CGFloat) // Color, Radius, X, Y
+    let isLarge: Bool
     
     public struct Shadow {
         let color: Color
