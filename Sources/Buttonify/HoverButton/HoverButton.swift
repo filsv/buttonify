@@ -228,9 +228,9 @@ struct HoverButtonContainer: View {
     var body: some View {
         VStack {
             HoverButton(
-                //style: .primary(isLarge: true),
+                style: .primary(isLarge: true),
                 //style: .roundShadow(isLarge: true),
-                style: .bordered(isLarge: true),
+//                style: .bordered(isLarge: true),
                 isLoading: $isLoading,
                 tapHaptic: .impact(.light),
                 longPressHaptic: .impact(.heavy),
