@@ -21,7 +21,7 @@ public enum Style {
                 return .init(tint: Color.white,
                              selectedTint: Color.white.opacity(0.8),
                              font: .body,
-                             radius: 5,
+                             radius: 10,
                              background: Color.blue,
                              hoveredBackground: Color.blue.opacity(0.9),
                              padding: 5,
