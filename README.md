@@ -46,7 +46,10 @@ To use the Buttonify UI Library in your SwiftUI project, you have two options:
    Add Buttonify to your project using SPM. 
    - Open your project in Xcode.
    - Navigate to `File > Add Packages...`.
-   - Enter the repository URL of Buttonify in the search bar.
+   - Enter the repository URL of Buttonify in the search bar (use the copy button below):
+     ```plaintext
+     https://github.com/yourusername/Buttonify.git
+     ```
    - Choose the package options that fit your needs and click `Add Package`. 
 
 Once added, you can start using Buttonify in your SwiftUI project.
