@@ -76,13 +76,8 @@ public struct HoverButton<Content: View>: View {
 
     public var body: some View {
         HStack {
-            if style.values.isLarge {
-                if !isLoading && shrinkable {
-                    Spacer()
-                        .transition(
-                            .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
-                        )
-                }
+            if style.values.isLarge && !isLoading && shrinkable {
+                Spacer()
             }
             
             ZStack {
@@ -93,33 +88,31 @@ public struct HoverButton<Content: View>: View {
                             .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
                             .combined(with: .opacity)
                         )
+                        .frame(maxWidth: (shrinkable && isLoading) ? nil : .infinity) // Grow back when not loading
                 } else {
                     content
                         .transition(
                             .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
                             .combined(with: .opacity)
                         )
+                        .frame(maxWidth: (shrinkable && isLoading) ? nil : .infinity) // Grow back when not loading
                 }
             }
             .padding(style.values.isLarge ? 10 : 0)
+            .animation(.easeInOut(duration: 0.3), value: isLoading)
             
-            if style.values.isLarge {
-                if !isLoading && shrinkable {
-                    Spacer()
-                        .transition(
-                            .asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing))
-                        )
-                }
+            if style.values.isLarge && !isLoading && shrinkable {
+                Spacer()
             }
         }
-        .animation(.easeInOut(duration: 0.3), value: isLoading)
+        //.animation(.easeInOut(duration: 0.3), value: isLoading)
         .font(style.values.font)
         .padding(style.values.padding ?? 0.0)
         .padding(.horizontal, style.values.horizontalPadding ?? 0.0)
         .background(backgroundColor)
         .foregroundColor(foregroundColor)
         .clipShape(RoundedRectangle(cornerRadius: style.values.radius ?? 0.0, style: .continuous))
-        .animation(.easeInOut(duration: 0.2),
+        .animation(.easeInOut(duration: 0.3),
                    value: interactionType)
         .gesture(mainGesture)
         .overlay(
