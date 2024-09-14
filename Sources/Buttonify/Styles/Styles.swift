@@ -11,7 +11,7 @@ import SwiftUI
 public enum Style {
     case primary(isLarge: Bool = false)
     case secondary(isLarge: Bool = false)
-    case roundShadow(isLarge: Bool = false)
+    case shadowed(isLarge: Bool = false)
     case bordered(isLarge: Bool = false)
     case custom(style: Styles)
     
@@ -26,7 +26,6 @@ public enum Style {
                              hoveredBackground: Color.blue.opacity(0.9),
                              padding: 5,
                              horizontalPadding: 5,
-                             shadow: nil,
                              isLarge: isLarge
                 )
             case .secondary(let isLarge):
@@ -34,14 +33,13 @@ public enum Style {
                              selectedTint: Color.black.opacity(0.8),
                              font: .body,
                              radius: isLarge ? 20 : 10,
-                             background: Color.gray.opacity(0.1),
+                             background: Color.gray.opacity(0.2),
                              hoveredBackground: Color.gray.opacity(0.05),
                              padding: 5,
                              horizontalPadding: 5,
-                             shadow: nil,
                              isLarge: isLarge
                 )
-        case .roundShadow(let isLarge):
+        case .shadowed(let isLarge):
             let shadow = Styles.Shadow(color: Color.black.opacity(0.1),
                                        radius: 2,
                                        x: 0, y: 0)
