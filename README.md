@@ -37,7 +37,19 @@ This library provides a customizable button component that supports different in
 
 ## Installation
 
-To use the HoverButton UI Library in your SwiftUI project, you can copy the provided source files into your project directory or include them as part of your UI components module.
+To use the Buttonify UI Library in your SwiftUI project, you have two options:
+
+1. **Copying the Source Files**: 
+   You can copy the provided source files into your project directory or include them as part of your UI components module.
+
+2. **Swift Package Manager (SPM)**: 
+   Add Buttonify to your project using SPM. 
+   - Open your project in Xcode.
+   - Navigate to `File > Add Packages...`.
+   - Enter the repository URL of Buttonify in the search bar.
+   - Choose the package options that fit your needs and click `Add Package`. 
+
+Once added, you can start using Buttonify in your SwiftUI project.
 
 ## Usage
 
