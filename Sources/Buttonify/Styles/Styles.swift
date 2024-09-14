@@ -63,7 +63,7 @@ public struct Styles {
         let x: CGFloat
         let y: CGFloat
         
-        init(color: Color = Color.clear, radius: CGFloat = 0, x: CGFloat = 0, y: CGFloat = 0) {
+        public init(color: Color = Color.clear, radius: CGFloat = 0, x: CGFloat = 0, y: CGFloat = 0) {
             self.color = color
             self.radius = radius
             self.x = x
