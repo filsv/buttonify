@@ -75,7 +75,8 @@ public struct HoverButton<Content: View>: View {
         .background(backgroundColor)
         .foregroundColor(foregroundColor)
         .clipShape(RoundedRectangle(cornerRadius: style.value.radius ?? 0.0, style: .continuous))
-        .animation(.easeInOut(duration: 0.2), value: isPressed)
+        .animation(.easeInOut(duration: 0.2), 
+                   value: interactionType)
         .gesture(mainGesture)
     }
 
