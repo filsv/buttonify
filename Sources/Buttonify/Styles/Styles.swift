@@ -12,6 +12,7 @@ public enum Style {
     case primary(isLarge: Bool = false)
     case secondary(isLarge: Bool = false)
     case roundShadow(isLarge: Bool = false)
+    case bordered(isLarge: Bool = false)
     case custom(style: Styles)
     
     var value: Styles {
@@ -55,6 +56,20 @@ public enum Style {
                          shadow: shadow,
                          isLarge: isLarge
             )
+        case .bordered(isLarge: let isLarge):
+            let border = Styles.Border(color: Color.black,
+                                       width: 1.0)
+            return .init(tint: Color.black,
+                         selectedTint: Color.black.opacity(0.8),
+                         font: .body,
+                         radius: isLarge ? 20 : 10,
+                         background: Color.white,
+                         hoveredBackground: Color.white.opacity(0.9),
+                         padding: 5,
+                         horizontalPadding: 5,
+                         border: border,
+                         isLarge: isLarge
+            )
         case .custom(let customStyle):
             return customStyle
         }
@@ -70,8 +85,14 @@ public struct Styles {
     let hoveredBackground: Color?
     let padding: CGFloat?
     let horizontalPadding: CGFloat?
+    let border: Border?
     let shadow: Shadow?//(Color, CGFloat, CGFloat, CGFloat) // Color, Radius, X, Y
     let isLarge: Bool
+    
+    public struct Border {
+        let color: Color
+        let width: CGFloat
+    }
     
     public struct Shadow {
         let color: Color
@@ -95,9 +116,9 @@ public struct Styles {
          hoveredBackground: Color? = nil,
          padding: CGFloat? = nil,
          horizontalPadding: CGFloat? = nil,
+                border: Border? = nil,
          shadow: Shadow? = nil,
          isLarge: Bool = false) {
-         //shadow: (Color, CGFloat, CGFloat, CGFloat) = (Color.clear, 0, 0, 0)) {
         
         self.tint = tint
         self.selectedTint = selectedTint ?? tint.opacity(0.8)
@@ -107,6 +128,7 @@ public struct Styles {
         self.hoveredBackground = hoveredBackground ?? background?.opacity(0.9) ?? Color.clear
         self.padding = padding
         self.horizontalPadding = horizontalPadding
+        self.border = border
         self.shadow = shadow
         self.isLarge = isLarge
     }

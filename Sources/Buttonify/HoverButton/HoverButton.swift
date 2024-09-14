@@ -63,6 +63,13 @@ public struct HoverButton<Content: View>: View {
     private var shadowYPos: CGFloat {
         style.value.shadow?.y ?? 0.0
     }
+    
+    private var borderColor: Color {
+        style.value.border?.color ?? Color.clear
+    }
+    private var borderWidth: CGFloat {
+        style.value.border?.width ?? 0.0
+    }
 
     public var body: some View {
         HStack {
@@ -94,11 +101,16 @@ public struct HoverButton<Content: View>: View {
         .animation(.easeInOut(duration: 0.2), 
                    value: interactionType)
         .gesture(mainGesture)
-        .padding(style.value.isLarge ? 10 : 0)
+        .overlay(
+            RoundedRectangle(cornerRadius: style.value.radius ?? 0.0, style: .continuous)
+                .strokeBorder(borderColor,
+                              lineWidth: borderWidth)
+        )
         .shadow(color: shadowColor,
                 radius: shadowRadius,
                 x: shadowXPos,
                 y: shadowYPos)
+        .padding(style.value.isLarge ? 10 : 0)
     }
 
     // MARK: - Computed Properties
@@ -217,7 +229,8 @@ struct HoverButtonContainer: View {
         VStack {
             HoverButton(
                 //style: .primary(isLarge: true),
-                style: .roundShadow(isLarge: true),
+                //style: .roundShadow(isLarge: true),
+                style: .bordered(isLarge: true),
                 isLoading: $isLoading,
                 tapHaptic: .impact(.light),
                 longPressHaptic: .impact(.heavy),
