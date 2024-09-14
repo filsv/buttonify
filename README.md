@@ -70,6 +70,7 @@ struct ContentView: View {
     var body: some View {
         HoverButton(
             style: .primary(isLarge: false),
+            shrinkable: false, // Added option to disable shrinking when loading
             interactionCallback: { interaction in
                 interactionType = interaction
             }
@@ -286,6 +287,7 @@ struct LoadingButtonsExample: View {
             HoverButton(
                 style: .primary(isLarge: true),
                 isLoading: $isLoading,
+		shrinkable: true,
                 tapHaptic: .impact(.light)
             ) {
                 Text(isLoading ? "Loading..." : "Large Loading")
@@ -299,6 +301,7 @@ struct LoadingButtonsExample: View {
             HoverButton(
                 style: .primary(isLarge: false),
                 isLoading: $isLoading,
+		shrinkable: true,
                 tapHaptic: .impact(.light)
             ) {
                 Text(isLoading ? "Loading..." : "Small Loading")
