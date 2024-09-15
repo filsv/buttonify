@@ -18,20 +18,15 @@ public struct HoverButton<Content: View>: View {
     private let interactionCallback: (InteractionType) -> Void
     private let resetDelay: TimeInterval
     private let holdingThreshold: TimeInterval
-    private let shrinkable: Bool
-    private let isLarge: Bool
 
     @State private var isPressed = false
     @State private var interactionType: InteractionType = .none
     @State private var holdTimer: Timer?
-    @Binding private var isLoading: Bool
 
     // MARK: - Initializer
 
     public init(
-        shrinkable: Bool = false,
         isLarge: Bool = false,
-        isLoading: Binding<Bool> = .constant(false),
         tapHaptic: HapticType? = nil,
         longPressHaptic: HapticType? = nil,
         releaseHaptic: HapticType? = nil,
@@ -40,9 +35,6 @@ public struct HoverButton<Content: View>: View {
         @ViewBuilder content: () -> Content,
         interactionCallback: @escaping (InteractionType) -> Void
     ) {
-        self.shrinkable = shrinkable
-        self.isLarge = isLarge
-        _isLoading = isLoading
         self.tapHapticType = tapHaptic
         self.longPressHapticType = longPressHaptic
         self.releaseHapticType = releaseHaptic
@@ -162,7 +154,7 @@ struct HoverButtonContainer: View {
 //                style: .destroy(isLarge: true),
 //                style: .roundShadow(isLarge: true),
 //                style: .bordered(isLarge: true),
-                shrinkable: false,
+//                shrinkable: false,
 //                isLoading: $isLoading,
                 tapHaptic: .impact(.light),
                 longPressHaptic: .impact(.heavy),
@@ -172,7 +164,7 @@ struct HoverButtonContainer: View {
             } interactionCallback: { interaction in
                 interactionType = interaction
                 
-                self.load()
+//                self.load()
             }
             .hoverButtonStyle(.primary(isLarge: false), isLoading: isLoading, shrinkable: true) // Applying the custom ViewModifier
 
