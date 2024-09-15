@@ -66,17 +66,17 @@ import Buttonify
 
 struct ContentView: View {
     @State private var interactionType: InteractionType = .none
+    @State private var isLoading: Bool = false
 
     var body: some View {
         HoverButton(
-            style: .primary(isLarge: false),
-            shrinkable: false, // Added option to disable shrinking when loading
             interactionCallback: { interaction in
                 interactionType = interaction
             }
         ) {
             Text("Press Me")
         }
+	.hoverButtonStyle(.primary(isLarge: false, isLoading: $isLoading, shrinkable: true))
     }
 }
 ```
@@ -94,6 +94,7 @@ HoverButton(
 ) {
     Text("Secondary Button")
 }
+.hoverButtonStyle(.primary(isLarge: true))
 ```
 
 To create a custom style:
@@ -114,13 +115,13 @@ let customStyle = Styles(
 )
 
 HoverButton(
-    style: .custom(style: customStyle),
     interactionCallback: { interaction in
         // Handle interactions
     }
 ) {
     Text("Custom Button")
 }
+.hoverButtonStyle(.custom(style: customStyle))
 ```
 
 ## Handling Interactions
@@ -144,6 +145,7 @@ The interactionCallback closure provides updates on the button’s interaction s
 ) {
     Text("Interactable Button")
 }
+.hoverButtonStyle(.secondary(isLarge: false))
 ```
 
 ## Haptic Feedback
@@ -161,6 +163,7 @@ HoverButton(
 ) {
     Text("Haptic Button")
 }
+.hoverButtonStyle(.secondary(isLarge: false))
 ```
 
 ## Loading State
@@ -171,7 +174,6 @@ The HoverButton supports a loading state, displaying a ProgressView when isLoadi
 @State private var isLoading = false
 
 HoverButton(
-    isLoading: $isLoading,
     interactionCallback: { interaction in
         if interaction == .tap {
             isLoading = true
@@ -184,6 +186,7 @@ HoverButton(
 ) {
     Text("Submit")
 }
+.hoverButtonStyle(.secondary(isLarge: false), isLoading: isLoading)
 ```
 
 ### Customization
