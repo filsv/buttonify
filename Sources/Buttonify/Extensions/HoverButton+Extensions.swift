@@ -8,7 +8,9 @@
 import SwiftUI
 
 extension HoverButton {
-    public func hoverButtonStyle(_ style: Style, isLoading: Bool = false, shrinkable: Bool) -> some View {
+    public func hoverButtonStyle(_ style: Style = .primary(isLarge: false),
+                                 isLoading: Bool = false,
+                                 shrinkable: Bool = false) -> some View {
         self.modifier(HoverButtonStyleModifier(style: style, isLoading: isLoading, shrinkable: shrinkable))
     }
 }
