@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 // Custom ViewModifier for HoverButton styling
-struct HoverButtonStyleModifier: ViewModifier {
+public struct HoverButtonStyleModifier: ViewModifier {
     let style: Style
     let isLoading: Bool
     let shrinkable: Bool
@@ -42,7 +42,7 @@ struct HoverButtonStyleModifier: ViewModifier {
         style.values.isLarge
     }
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         HStack {
             if style.values.isLarge && !isLoading && shrinkable {
                 Spacer()
