@@ -57,7 +57,7 @@ public struct HoverButton<Content: View>: View {
 
     public var body: some View {
         HStack {
-            if isLarge && !isLoading && isShrinkable {
+            if styles.isLarge && (!isShrinkable || !isLoading) {
                 Spacer()
             }
             
@@ -79,7 +79,7 @@ public struct HoverButton<Content: View>: View {
             .padding(isLarge ? 10 : 0)
             .animation(.easeInOut(duration: 0.3), value: isLoading)
             
-            if isLarge && !isLoading && isShrinkable {
+            if styles.isLarge && (!isShrinkable || !isLoading) {
                 Spacer()
             }
         }
