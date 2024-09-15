@@ -150,13 +150,17 @@ The interactionCallback closure provides updates on the button’s interaction s
 
 ## Haptic Feedback
 
-You can enable haptic feedback for different interaction types:
+You can enable haptic feedback by providing a HapticConfiguration to the HoverButton. This configuration allows you to specify haptic feedback for different interaction types.
+
+let hapticConfig = HapticConfiguration(
+    tap: .impact(.light),
+    longPress: .impact(.heavy),
+    release: .selection
+)
 
 ```swift
 HoverButton(
-    tapHaptic: .impact(.light),
-    longPressHaptic: .selection,
-    releaseHaptic: .impact(.soft),
+    hapticConfig: hapticConfig
     interactionCallback: { interaction in
         // Handle interactions
     }
@@ -174,6 +178,7 @@ The HoverButton supports a loading state, displaying a ProgressView when isLoadi
 @State private var isLoading = false
 
 HoverButton(
+    isLoading: $isLoading,
     interactionCallback: { interaction in
         if interaction == .tap {
             isLoading = true
@@ -186,7 +191,7 @@ HoverButton(
 ) {
     Text("Submit")
 }
-.hoverButtonStyle(.secondary(isLarge: false), isLoading: isLoading)
+.hoverButtonStyle(.secondary(isLarge: false))
 ```
 
 ### Customization
@@ -245,26 +250,30 @@ struct PrimaryButtonsExample: View {
                 .padding()
 
             HoverButton(
-                style: .primary(isLarge: true),
-                tapHaptic: .impact(.light),
-                longPressHaptic: .selection,
-                releaseHaptic: .impact(.heavy)
+                hapticConfig: HapticConfiguration(
+                    tap: .impact(.light),
+                    longPress: .impact(.heavy),
+                    release: .selection
+                )
             ) {
                 Text("Large Primary")
             } interactionCallback: { interaction in
                 interactionType = interaction
             }
+            .hoverButtonStyle(.primary(isLarge: true))
 
             HoverButton(
-                style: .primary(isLarge: false),
-                tapHaptic: .impact(.light),
-                longPressHaptic: .selection,
-                releaseHaptic: .impact(.heavy)
+                hapticConfig: HapticConfiguration(
+                    tap: .impact(.light),
+                    longPress: .impact(.heavy),
+                    release: .selection
+                )
             ) {
                 Text("Small Primary")
             } interactionCallback: { interaction in
                 interactionType = interaction
             }
+            .hoverButtonStyle(.primary(isLarge: false))
 
             Text("Current Interaction: \(interactionType.description)")
                 .padding()
@@ -288,10 +297,9 @@ struct LoadingButtonsExample: View {
                 .padding()
 
             HoverButton(
-                style: .primary(isLarge: true),
                 isLoading: $isLoading,
-		shrinkable: true,
-                tapHaptic: .impact(.light)
+                shrinkable: true,
+                hapticConfig: HapticConfiguration(tap: .impact(.light))
             ) {
                 Text(isLoading ? "Loading..." : "Large Loading")
             } interactionCallback: { interaction in
@@ -300,12 +308,12 @@ struct LoadingButtonsExample: View {
                     initiateLoading()
                 }
             }
+            .hoverButtonStyle(.primary(isLarge: true))
 
             HoverButton(
-                style: .primary(isLarge: false),
                 isLoading: $isLoading,
-		shrinkable: true,
-                tapHaptic: .impact(.light)
+                shrinkable: true,
+                hapticConfig: HapticConfiguration(tap: .impact(.light))
             ) {
                 Text(isLoading ? "Loading..." : "Small Loading")
             } interactionCallback: { interaction in
@@ -314,6 +322,7 @@ struct LoadingButtonsExample: View {
                     initiateLoading()
                 }
             }
+            .hoverButtonStyle(.primary(isLarge: false))
 
             Text("Current Interaction: \(interactionType.description)")
                 .padding()
@@ -343,22 +352,22 @@ struct SecondaryButtonsExample: View {
                 .padding()
 
             HoverButton(
-                style: .secondary(isLarge: true),
-                tapHaptic: .impact(.light)
+                hapticConfig: HapticConfiguration(tap: .impact(.light))
             ) {
                 Text("Large Secondary")
             } interactionCallback: { interaction in
                 interactionType = interaction
             }
+            .hoverButtonStyle(.secondary(isLarge: true))
 
             HoverButton(
-                style: .secondary(isLarge: false),
-                tapHaptic: .impact(.light)
+                hapticConfig: HapticConfiguration(tap: .impact(.light))
             ) {
                 Text("Small Secondary")
             } interactionCallback: { interaction in
                 interactionType = interaction
             }
+            .hoverButtonStyle(.secondary(isLarge: false))
 
             Text("Current Interaction: \(interactionType.description)")
                 .padding()
