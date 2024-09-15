@@ -11,6 +11,8 @@ import SwiftUI
 public struct HoverButton<Content: View>: View {
     // MARK: - Properties
 
+    @Environment(\.buttonStyles) private var styles: Styles
+    
     private let content: Content
     private let tapHapticType: HapticType?
     private let longPressHapticType: HapticType?
@@ -18,7 +20,13 @@ public struct HoverButton<Content: View>: View {
     private let interactionCallback: (InteractionType) -> Void
     private let resetDelay: TimeInterval
     private let holdingThreshold: TimeInterval
-
+    private let isShrinkable: Bool
+    
+    private var isLarge: Bool {
+        styles.isLarge
+    }
+    
+    @Binding private var isLoading: Bool
     @State private var isPressed = false
     @State private var interactionType: InteractionType = .none
     @State private var holdTimer: Timer?
@@ -26,7 +34,8 @@ public struct HoverButton<Content: View>: View {
     // MARK: - Initializer
 
     public init(
-        isLarge: Bool = false,
+        isLoading: Binding<Bool> = .constant(false),
+        isShrinkable: Bool = false,
         tapHaptic: HapticType? = nil,
         longPressHaptic: HapticType? = nil,
         releaseHaptic: HapticType? = nil,
@@ -35,6 +44,8 @@ public struct HoverButton<Content: View>: View {
         @ViewBuilder content: () -> Content,
         interactionCallback: @escaping (InteractionType) -> Void
     ) {
+        self._isLoading = isLoading
+        self.isShrinkable = isShrinkable
         self.tapHapticType = tapHaptic
         self.longPressHapticType = longPressHaptic
         self.releaseHapticType = releaseHaptic
@@ -45,10 +56,35 @@ public struct HoverButton<Content: View>: View {
     }
 
     public var body: some View {
-        content
-            .frame(maxWidth: .infinity) // Ensure full width
-            .contentShape(Rectangle())  // Make the entire area tappable
-            .gesture(mainGesture)
+        HStack {
+            if isLarge && !isLoading && isShrinkable {
+                Spacer()
+            }
+            
+            ZStack {
+                if isLoading {
+                    ProgressView()
+                        .transition(
+                            .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
+                            .combined(with: .opacity)
+                        )
+                } else {
+                    content
+                        .transition(
+                            .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
+                            .combined(with: .opacity)
+                        )
+                }
+            }
+            .padding(isLarge ? 10 : 0)
+            .animation(.easeInOut(duration: 0.3), value: isLoading)
+            
+            if isLarge && !isLoading && isShrinkable {
+                Spacer()
+            }
+        }
+        .contentShape(Rectangle())  // Make the entire area tappable
+        .gesture(mainGesture)
     }
     
     // MARK: - Gesture
@@ -143,7 +179,7 @@ HoverButton(style: .primary) {
 }
 */
 
-struct HoverButtonContainer: View {
+struct HoverButtonPreviewContainer: View {
     
     @State private var interactionType: InteractionType = .none
     @State private var isLoading: Bool = false
@@ -151,6 +187,9 @@ struct HoverButtonContainer: View {
     var body: some View {
         VStack {
             HoverButton(
+//                isLarge: true,
+                isLoading: $isLoading,
+                isShrinkable: true,
 //                style: .primary(isLarge: true),
 //                style: .secondary(isLarge: false),
 //                style: .destroy(isLarge: true),
@@ -168,7 +207,7 @@ struct HoverButtonContainer: View {
                 
                 self.load()
             }
-            .hoverButtonStyle(.primary(isLarge: true), isLoading: isLoading, shrinkable: true) // Applying the custom ViewModifier
+            .hoverButtonStyle(.primary(isLarge: false)) // Applying the custom ViewModifier
 
             // Add additional views if needed, like a description or actions
         }
@@ -199,5 +238,5 @@ struct HoverButtonContainer: View {
 }
 
 #Preview {
-    HoverButtonContainer()
+    HoverButtonPreviewContainer()
 }
