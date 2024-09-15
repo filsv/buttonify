@@ -152,11 +152,13 @@ The interactionCallback closure provides updates on the button’s interaction s
 
 You can enable haptic feedback by providing a HapticConfiguration to the HoverButton. This configuration allows you to specify haptic feedback for different interaction types.
 
+```swift
 let hapticConfig = HapticConfiguration(
     tap: .impact(.light),
     longPress: .impact(.heavy),
     release: .selection
 )
+```
 
 ```swift
 HoverButton(
