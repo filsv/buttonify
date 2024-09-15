@@ -46,6 +46,8 @@ public struct HoverButton<Content: View>: View {
 
     public var body: some View {
         content
+            .frame(maxWidth: .infinity) // Ensure full width
+            .contentShape(Rectangle())  // Make the entire area tappable
             .gesture(mainGesture)
     }
     
@@ -164,9 +166,9 @@ struct HoverButtonContainer: View {
             } interactionCallback: { interaction in
                 interactionType = interaction
                 
-//                self.load()
+                self.load()
             }
-            .hoverButtonStyle(.primary(isLarge: false), isLoading: isLoading, shrinkable: true) // Applying the custom ViewModifier
+            .hoverButtonStyle(.primary(isLarge: true), isLoading: isLoading, shrinkable: true) // Applying the custom ViewModifier
 
             // Add additional views if needed, like a description or actions
         }

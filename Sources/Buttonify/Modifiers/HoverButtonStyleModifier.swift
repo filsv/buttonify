@@ -72,6 +72,7 @@ public struct HoverButtonStyleModifier: ViewModifier {
                 Spacer()
             }
         }
+        .frame(maxWidth: shrinkable ? nil : .infinity) // Ensure full width or shrinkable width
         .animation(.easeInOut(duration: 0.3), value: isLoading)
         .tint(style.values.tint)
         .font(style.values.font)
