@@ -14,9 +14,7 @@ public struct HoverButton<Content: View>: View {
     @Environment(\.buttonStyles) private var styles: Styles
     
     private let content: Content
-    private let tapHapticType: HapticType?
-    private let longPressHapticType: HapticType?
-    private let releaseHapticType: HapticType?
+    private let hapticConfig: HapticConfiguration?
     private let interactionCallback: (InteractionType) -> Void
     private let resetDelay: TimeInterval
     private let holdingThreshold: TimeInterval
@@ -36,9 +34,7 @@ public struct HoverButton<Content: View>: View {
     public init(
         isLoading: Binding<Bool> = .constant(false),
         isShrinkable: Bool = false,
-        tapHaptic: HapticType? = nil,
-        longPressHaptic: HapticType? = nil,
-        releaseHaptic: HapticType? = nil,
+        hapticConfig: HapticConfiguration? = nil,
         resetDelay: TimeInterval = 0.5,
         holdingThreshold: TimeInterval = 0.25,
         @ViewBuilder content: () -> Content,
@@ -46,9 +42,7 @@ public struct HoverButton<Content: View>: View {
     ) {
         self._isLoading = isLoading
         self.isShrinkable = isShrinkable
-        self.tapHapticType = tapHaptic
-        self.longPressHapticType = longPressHaptic
-        self.releaseHapticType = releaseHaptic
+        self.hapticConfig = hapticConfig
         self.resetDelay = resetDelay
         self.holdingThreshold = holdingThreshold
         self.content = content()
@@ -128,21 +122,21 @@ public struct HoverButton<Content: View>: View {
     private func handleTap() {
         interactionType = .tap
         interactionCallback(.tap)
-        triggerHapticIfNeeded(tapHapticType)
+        triggerHapticIfNeeded(hapticConfig?.tap)
         resetInteractionTypeWithDelay()
     }
     
     private func handleHolding() {
         interactionType = .holding
         interactionCallback(.holding)
-        triggerHapticIfNeeded(longPressHapticType)
+        triggerHapticIfNeeded(hapticConfig?.longPress)
         // Continue holding until the finger is lifted
     }
     
     private func handleRelease() {
         interactionType = .released
         interactionCallback(.released)
-        triggerHapticIfNeeded(releaseHapticType)
+        triggerHapticIfNeeded(hapticConfig?.tap)
         resetInteractionTypeWithDelay()
     }
 
@@ -150,7 +144,7 @@ public struct HoverButton<Content: View>: View {
 
     private func triggerHapticIfNeeded(_ hapticType: HapticType?) {
         guard let hapticType = hapticType else { return }
-        HapticManager.triggerHaptic(hapticType)
+        HapticManager.shared.generate(hapticType)
     }
 
     // MARK: - Interaction Reset
@@ -159,7 +153,7 @@ public struct HoverButton<Content: View>: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + resetDelay) {
             interactionType = .none
             interactionCallback(.none)
-            triggerHapticIfNeeded(releaseHapticType)
+            //triggerHapticIfNeeded(releaseHapticType)
         }
     }
 }
@@ -197,9 +191,11 @@ struct HoverButtonPreviewContainer: View {
 //                style: .bordered(isLarge: true),
 //                shrinkable: false,
 //                isLoading: $isLoading,
-                tapHaptic: .impact(.light),
-                longPressHaptic: .impact(.heavy),
-                releaseHaptic: .selection
+                hapticConfig: HapticConfiguration(
+                    tap: .impact(.light),
+                    longPress: .impact(.heavy),
+                    release: .selection
+                )
             ) {
                 Text(interactionType.description)
             } interactionCallback: { interaction in
@@ -207,7 +203,7 @@ struct HoverButtonPreviewContainer: View {
                 
                 self.load()
             }
-            .hoverButtonStyle(.primary(isLarge: false)) // Applying the custom ViewModifier
+            .hoverButtonStyle(.primary(isLarge: true)) // Applying the custom ViewModifier
 
             // Add additional views if needed, like a description or actions
         }
