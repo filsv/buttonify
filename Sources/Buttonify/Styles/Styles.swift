@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Style.swift
 //  
 //
 //  Created by FIL SVIATOSLAV on 13/09/2024.

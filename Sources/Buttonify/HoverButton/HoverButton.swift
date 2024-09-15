@@ -11,7 +11,6 @@ import SwiftUI
 public struct HoverButton<Content: View>: View {
     // MARK: - Properties
 
-    private let style: Style
     private let content: Content
     private let tapHapticType: HapticType?
     private let longPressHapticType: HapticType?
@@ -20,6 +19,7 @@ public struct HoverButton<Content: View>: View {
     private let resetDelay: TimeInterval
     private let holdingThreshold: TimeInterval
     private let shrinkable: Bool
+    private let isLarge: Bool
 
     @State private var isPressed = false
     @State private var interactionType: InteractionType = .none
@@ -29,8 +29,8 @@ public struct HoverButton<Content: View>: View {
     // MARK: - Initializer
 
     public init(
-        style: Style = .primary(isLarge: false),
         shrinkable: Bool = false,
+        isLarge: Bool = false,
         isLoading: Binding<Bool> = .constant(false),
         tapHaptic: HapticType? = nil,
         longPressHaptic: HapticType? = nil,
@@ -40,8 +40,8 @@ public struct HoverButton<Content: View>: View {
         @ViewBuilder content: () -> Content,
         interactionCallback: @escaping (InteractionType) -> Void
     ) {
-        self.style = style
         self.shrinkable = shrinkable
+        self.isLarge = isLarge
         _isLoading = isLoading
         self.tapHapticType = tapHaptic
         self.longPressHapticType = longPressHaptic
@@ -52,95 +52,10 @@ public struct HoverButton<Content: View>: View {
         self.interactionCallback = interactionCallback
     }
 
-    // MARK: - Body
-    
-    private var shadowRadius: CGFloat {
-        style.values.shadow?.radius ?? 0.0
-    }
-    private var shadowColor: Color {
-        style.values.shadow?.color ?? Color.clear
-    }
-    private var shadowXPos: CGFloat {
-        style.values.shadow?.x ?? 0.0
-    }
-    private var shadowYPos: CGFloat {
-        style.values.shadow?.y ?? 0.0
-    }
-    
-    private var borderColor: Color {
-        style.values.border?.color ?? Color.clear
-    }
-    private var borderWidth: CGFloat {
-        style.values.border?.width ?? 0.0
-    }
-
     public var body: some View {
-        HStack {
-            if style.values.isLarge && !isLoading && shrinkable {
-                Spacer()
-            }
-            
-            ZStack {
-                if isLoading {
-                    ProgressView()
-                        .tint(style.values.tint)
-                        .transition(
-                            .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
-                            .combined(with: .opacity)
-                        )
-                        .frame(maxWidth: (shrinkable && isLoading) ? nil : (style.values.isLarge ? .infinity : nil)) // Grow back when not loading
-                } else {
-                    content
-                        .transition(
-                            .asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom))
-                            .combined(with: .opacity)
-                        )
-                        .frame(maxWidth: (shrinkable && isLoading) ? nil : (style.values.isLarge ? .infinity : nil)) // Grow back when not loading
-                }
-            }
-            .padding(style.values.isLarge ? 10 : 0)
-            .animation(.easeInOut(duration: 0.3), value: isLoading)
-            
-            if style.values.isLarge && !isLoading && shrinkable {
-                Spacer()
-            }
-        }
-        //.animation(.easeInOut(duration: 0.3), value: isLoading)
-        .font(style.values.font)
-        .padding(style.values.padding ?? 0.0)
-        .padding(.horizontal, style.values.horizontalPadding ?? 0.0)
-        .background(backgroundColor)
-        .foregroundColor(foregroundColor)
-        .clipShape(RoundedRectangle(cornerRadius: style.values.radius ?? 0.0, style: .continuous))
-        .animation(.easeInOut(duration: 0.3),
-                   value: interactionType)
-        .gesture(mainGesture)
-        .overlay(
-            RoundedRectangle(cornerRadius: style.values.radius ?? 0.0, style: .continuous)
-                .strokeBorder(borderColor,
-                              lineWidth: borderWidth)
-        )
-        .shadow(color: shadowColor,
-                radius: shadowRadius,
-                x: shadowXPos,
-                y: shadowYPos)
-        .padding(style.values.isLarge ? 10 : 0)
+        content
+            .gesture(mainGesture)
     }
-
-    // MARK: - Computed Properties
-
-    private var backgroundColor: Color {
-        let hoveredBackground = style.values.hoveredBackground ?? style.values.background ?? Color.clear
-        let background = style.values.background ?? Color.clear
-        return isPressed ? hoveredBackground : background
-    }
-
-    private var foregroundColor: Color {
-        let pressedTint = style.values.selectedTint ?? style.values.tint
-        let tint = style.values.selectedTint ?? style.values.tint
-        return isPressed ? (pressedTint) : tint
-    }
-
     
     // MARK: - Gesture
     
@@ -242,30 +157,24 @@ struct HoverButtonContainer: View {
     var body: some View {
         VStack {
             HoverButton(
-                style: .primary(isLarge: true),
+//                style: .primary(isLarge: true),
 //                style: .secondary(isLarge: false),
 //                style: .destroy(isLarge: true),
-                //style: .roundShadow(isLarge: true),
+//                style: .roundShadow(isLarge: true),
 //                style: .bordered(isLarge: true),
                 shrinkable: false,
-                isLoading: $isLoading,
+//                isLoading: $isLoading,
                 tapHaptic: .impact(.light),
                 longPressHaptic: .impact(.heavy),
                 releaseHaptic: .selection
             ) {
                 Text(interactionType.description)
-//                    .font(.headline)
-//                    .padding()
-//                    .foregroundColor(.white)
-//                    .frame(maxWidth: .infinity, minHeight: 50)
-//                    .background(interactionColor)
-//                    .cornerRadius(10)
             } interactionCallback: { interaction in
                 interactionType = interaction
                 
                 self.load()
             }
-//            .padding()
+            .hoverButtonStyle(.primary(isLarge: false), isLoading: isLoading, shrinkable: true) // Applying the custom ViewModifier
 
             // Add additional views if needed, like a description or actions
         }
