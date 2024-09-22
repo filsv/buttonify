@@ -73,7 +73,7 @@ An example project is included in the Buttonify repository to demonstrate how to
      git clone https://github.com/filsv/buttonify.git
      ```
 2. **Open the Example Project**:
-    - Navigate to the Example/ folder.
+    - Navigate to the ButtonifyExample/ folder.
     - Open the ButtonifyExample.xcodeproj file using Xcode.
 3. **Build and Run:**
     - In Xcode, select the ButtonifyExample scheme from the scheme selector in the top left.
