@@ -158,6 +158,27 @@ public struct HoverButton<Content: View>: View {
     }
 }
 
+// MARK: - For Testing Purposes
+extension HoverButton {
+    
+    // Inside HoverButton struct
+    public func isShrinkableForTest() -> Bool {
+        return self.isShrinkable
+    }
+    
+    func simulateTap() {
+        handleTap()
+    }
+    
+    func simulateHold() {
+        handleHolding()
+    }
+    
+    func simulateRelease() {
+        handleRelease()
+    }
+}
+
 // Example usage with a Text label
 /*
 HoverButton(style: .primary) {
