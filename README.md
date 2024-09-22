@@ -7,6 +7,7 @@ This library provides a customizable button component that supports different in
 ## Table of Contents
 
 - [Features](#features)
+- [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Basic Usage](#basic-usage)
@@ -34,6 +35,12 @@ This library provides a customizable button component that supports different in
 - **Loading State**: Built-in support for displaying a loading indicator.
 - **Adaptive Layout**: Supports large and small button sizes.
 - **Accessibility**: Designed with accessibility in mind.
+
+## Requirements
+
+- **iOS** 15.0+
+- **macOS** 11.0+
+- **Xcode** 13.0+ for building on iOS 15+ and macOS 11+.
 
 ## Installation
 
