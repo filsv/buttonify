@@ -9,6 +9,7 @@ This library provides a customizable button component that supports different in
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [Example](#example)
 - [Usage](#usage)
   - [Basic Usage](#basic-usage)
   - [Customizing Styles](#customizing-styles)
@@ -60,6 +61,26 @@ To use the Buttonify UI Library in your SwiftUI project, you have two options:
    - Choose the package options that fit your needs and click `Add Package`. 
 
 Once added, you can start using Buttonify in your SwiftUI project.
+
+## Example
+
+An example project is included in the Buttonify repository to demonstrate how to integrate and use the Buttonify components in your SwiftUI app.
+
+### Basic Usage
+1. **Clone the Repository**:
+    - Clone the repository to your local machine using Git:
+    ```plaintext
+     git clone https://github.com/filsv/buttonify.git
+     ```
+2. **Open the Example Project**:
+    - Navigate to the Example/ folder.
+    - Open the ButtonifyExample.xcodeproj file using Xcode.
+3. **Build and Run:**
+    - In Xcode, select the ButtonifyExample scheme from the scheme selector in the top left.
+    - Choose your preferred simulator or device (e.g., iPhone or macOS).
+    - Press Cmd + R to build and run the example app.
+4. **Explore the Example:**
+    - Once the app is running on the simulator or device, you’ll see various examples of how Buttonify components, such as HoverButton, are used in SwiftUI views.
 
 ## Usage
 
