@@ -36,7 +36,7 @@ public struct HoverButtonStyleModifier: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .environment(\.buttonStyles, values) // Set the environment value here
-            .tint(values.tint)
+            .ifAvailableTint(values.tint)
             .font(values.font)
             .padding(padding)
             .padding(.horizontal, hPadding)
