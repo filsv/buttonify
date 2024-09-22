@@ -77,7 +77,7 @@ public struct HoverButtonContainer<Content: View>: View {
         }
         .frame(maxWidth: (shrinkable || !isLarge) ? nil : .infinity) // Ensure full width or shrinkable width
         .animation(.easeInOut(duration: 0.3), value: isLoading)
-        .tint(style.values.tint)
+        .ifAvailableTint(style.values.tint)
         .font(style.values.font)
         .padding(style.values.padding ?? 0)
         .padding(.horizontal, style.values.horizontalPadding ?? 0)
