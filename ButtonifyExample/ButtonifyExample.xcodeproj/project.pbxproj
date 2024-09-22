@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		630A27D62CA010A4008001B7 /* Buttonify in Frameworks */ = {isa = PBXBuildFile; productRef = 630A27D52CA010A4008001B7 /* Buttonify */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		63E9B8D52CA0103B00337C57 /* ButtonifyExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ButtonifyExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				630A27D62CA010A4008001B7 /* Buttonify in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = ButtonifyExample;
 			packageProductDependencies = (
+				630A27D52CA010A4008001B7 /* Buttonify */,
 			);
 			productName = ButtonifyExample;
 			productReference = 63E9B8D52CA0103B00337C57 /* ButtonifyExample.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 63E9B8CC2CA0103B00337C57;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				630A27D42CA010A4008001B7 /* XCLocalSwiftPackageReference "../../Buttonify" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 63E9B8D62CA0103B00337C57 /* Products */;
 			projectDirPath = "";
@@ -339,6 +348,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		630A27D42CA010A4008001B7 /* XCLocalSwiftPackageReference "../../Buttonify" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Buttonify;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		630A27D52CA010A4008001B7 /* Buttonify */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Buttonify;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 63E9B8CD2CA0103B00337C57 /* Project object */;
 }
